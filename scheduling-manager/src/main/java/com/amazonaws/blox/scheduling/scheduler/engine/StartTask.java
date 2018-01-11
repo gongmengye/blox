@@ -31,6 +31,8 @@ public class StartTask implements SchedulingAction {
   private final String taskDefinitionArn;
   private final String group;
 
+  private static final String STARTED_BY = "blox";
+
   @Override
   public CompletableFuture<Boolean> execute(ECSAsyncClient ecs) {
     CompletableFuture<StartTaskResponse> pendingRequest =
@@ -40,7 +42,7 @@ public class StartTask implements SchedulingAction {
                 .containerInstances(containerInstanceArn)
                 .taskDefinition(taskDefinitionArn)
                 .group(group)
-                .startedBy("blox")
+                .startedBy(STARTED_BY)
                 .build());
 
     pendingRequest.thenAccept(r -> log.debug("ECS response: {}", r));
